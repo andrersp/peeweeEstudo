@@ -94,11 +94,117 @@ class CrudFornecedor(object):
 
         try:
 
+            # Query
+            busca = Fornecedor.get_by_id(self.id)
+
+            # Salvando resultado da Query
+            self.id = busca.id
+            self.nomeFantasia = busca.nome_fantasia
+            self.razaoSocial = busca.razao_social
+            self.cnpj = busca.cnpj
+            self.inscEstadual = busca.insc_estadual
+            self.telefone = busca.telefone
+            self.email = busca.email
+            self.site = busca.site
+            self.obs = busca.obs
+            self.cep = busca.cep
+            self.endereco = busca.endereco
+            self.numero = busca.numero
+            self.bairro = busca.bairro
+            self.cidade = busca.cidade
+            self.estado = busca.estado
+
+            # Fechando a Conexao
+            Conexao().dbhandler.close()
+
+            pass
+
+        except peewee.DoesNotExist as err:
+            print(err)
+            pass
+
+    # Buscando Fornecedor por Nome
+
+    def listaFornecedor(self):
+
+        try:
+
+            # Query
+            busca = (Fornecedor.select().where(
+                Fornecedor.nome_fantasia.contains(self.nomeFantasia)))
+
+            # Convertendo variaveis em lista
+            self.id = []
+            self.nomeFantasia = []
+            self.razaoSocial = []
+            self.cnpj = []
+            self.inscEstadual = []
+            self.telefone = []
+            self.email = []
+            self.site = []
+            self.obs = []
+            self.cep = []
+            self.endereco = []
+            self.numero = []
+            self.bairro = []
+            self.cidade = []
+            self.estado = []
+
+            # Adicionando dados em suas listas
+            for row in busca:
+                self.id.append(row.id)
+                self.nomeFantasia.append(row.nome_fantasia)
+                self.razaoSocial.append(row.razao_social)
+                self.cnpj.append(row.cnpj)
+                self.inscEstadual.append(row.insc_estadual)
+                self.telefone.append(row.telefone)
+                self.email.append(row.email)
+                self.site.append(row.site)
+                self.obs.append(row.obs)
+                self.cep.append(row.cep)
+                self.endereco.append(row.endereco)
+                self.numero.append(row.numero)
+                self.bairro.append(row.bairro)
+                self.cidade.append(row.cidade)
+                self.estado.append(row.estado)
+
+            # Fechando a conexao
+            Conexao().dbhandler.close()
+
+        except peewee.DoesNotExist as err:
+            print(err)
+
+    # Lista AutoComplete Fornecedor
+
+    def autoCompleteFornecedor(self):
+
+        try:
+
+            # Query
+            busca = (Fornecedor
+                     .select(Fornecedor.id, Fornecedor.nome_fantasia)
+                     .where(Fornecedor.nome_fantasia
+                            .contains(self.nomeFantasia)))
+
+            # Convertendo variaveis em lista
+            self.id = []
+            self.nomeFantasia = []
+
+            # Adicionando dados em suas listas
+            for row in busca:
+                self.id.append(row.id)
+                self.nomeFantasia.append(row.nome_fantasia)
+
+            # Fechando a Conexao
+
+            Conexao().dbhandler.close()
+
         except peewee.DoesNotExist as err:
             print(err)
 
 
 Inseri = CrudFornecedor()
-Inseri.id = Inseri.lastIdFornecedor()
-Inseri.nomeFantasia = "Azul e Rosa Personalizados"
-Inseri.inseriFornecedor()
+Inseri.nomeFantasia = 'Rosa'
+Inseri.autoCompleteFornecedor()
+print(Inseri.nomeFantasia)
+print(Inseri.razaoSocial)
