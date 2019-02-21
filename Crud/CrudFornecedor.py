@@ -44,6 +44,9 @@ class CrudFornecedor(object):
 
             self.id = ultimo.id + 1
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
             pass
 
         except peewee.DoesNotExist:
@@ -196,15 +199,7 @@ class CrudFornecedor(object):
                 self.nomeFantasia.append(row.nome_fantasia)
 
             # Fechando a Conexao
-
             Conexao().dbhandler.close()
 
         except peewee.DoesNotExist as err:
             print(err)
-
-
-Inseri = CrudFornecedor()
-Inseri.nomeFantasia = 'Rosa'
-Inseri.autoCompleteFornecedor()
-print(Inseri.nomeFantasia)
-print(Inseri.razaoSocial)

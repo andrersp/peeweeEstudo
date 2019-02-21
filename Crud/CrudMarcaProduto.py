@@ -26,6 +26,9 @@ class CrudMarcaProduto(object):
                 MarcaProduto.id.desc()).get()
             self.id = ultimo.id + 1
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
         except:
 
             self.id = 1
@@ -48,6 +51,7 @@ class CrudMarcaProduto(object):
 
             # Fechando a Conexao
             Conexao().dbhandler.close()
+
         except peewee.InternalError as err:
             print(err)
 
@@ -74,15 +78,10 @@ class CrudMarcaProduto(object):
                 self.id.append(row.id)
                 self.marca_produto.append(row.marca_produto)
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
         except peewee.DoesNotExist as err:
             print(err)
 
         pass
-
-
-# Inseri = CrudMarcaProduto()
-# Inseri.id = Inseri.lastIdMarcaProduto()
-# Inseri.marca_produto = "Meocolor"
-# Inseri.inseriMarcaProduto()
-# Inseri.listaMarcaProdutos()
-# print(Inseri.marca_produto, Inseri.id)

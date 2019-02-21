@@ -11,6 +11,12 @@ from peewee import Model
 from playhouse.mysql_ext import MySQLConnectorDatabase
 
 
+""" 
+Classe responsável pela conexao com o DB.
+Caso não exista o DB será criado
+ """
+
+
 class Conexao(object):
     def __init__(self, dbhandler="", erro=""):
         user = 'andre'
@@ -130,6 +136,3 @@ class Fornecedor(BaseModel):
 
     class Meta:
         db_table = 'fornecedor'
-
-
-# conecta = Conexao()

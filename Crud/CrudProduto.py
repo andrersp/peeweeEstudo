@@ -43,6 +43,9 @@ class CrudProduto(object):
             ultimo = Produto.select().order_by(Produto.id.desc()).get()
             self.id = ultimo.id + 1
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
         except:
 
             self.id = 1
@@ -185,34 +188,8 @@ class CrudProduto(object):
                 self.id.append(row.id)
                 self.produto.append(row.produto)
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
         except peewee.DoesNotExist as err:
             print(err)
-
-
-# Inseri = CrudProduto()
-# Inseri.produto = "a"
-# Inseri.autoCompleteProduto()
-# print(Inseri.id)
-
-# Inseri.listaProduto()
-
-# for lista in range(0, len(Inseri.produto)):
-#     print(Inseri.produto[lista])
-#     print(Inseri.marca[lista])
-# Inseri.id = Inseri.lastIdProduto()
-# Inseri.produto = "Relógio"
-# Inseri.imagem = base64.b64decode('')
-# Inseri.categoria = '1'
-# Inseri.marca = '1'
-# Inseri.estoqueMinimo = '5'
-# Inseri.estoqueMaximo = '36'
-# Inseri.valorCompra = '7.50'
-# Inseri.valorUnitario = '25.00'
-# Inseri.valorAtacado = '20'
-# Inseri.qtdeAtacado = '5'
-# Inseri.obs = 'a'
-# try:
-#     Inseri.inseriProduto()
-# except peewee.IntegrityError as err:
-#     print(err)
-# # print(Inseri.lastIdProduto())

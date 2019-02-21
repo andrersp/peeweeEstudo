@@ -31,9 +31,9 @@ class CrudCliente(object):
 
         # Criando tabela Clientes
         try:
-
             Cliente.create_table()
             pass
+
         except:
             print(Conexao().erro)
             pass
@@ -47,6 +47,9 @@ class CrudCliente(object):
             ultimo = Cliente.select().order_by(Cliente.id.desc()).get()
 
             self.id = ultimo.id + 1
+
+            # Fechando Conexao
+            Conexao().dbhandler.close()
 
             pass
 
@@ -121,6 +124,9 @@ class CrudCliente(object):
             self.cidade = busca.cidade
             self.estado = busca.estado
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
             pass
 
         except peewee.DoesNotExist as err:
@@ -177,6 +183,9 @@ class CrudCliente(object):
                 self.cidade.append(row.cidade)
                 self.estado.append(row.estado)
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
             pass
 
         except peewee.DoesNotExist as err:
@@ -203,6 +212,9 @@ class CrudCliente(object):
             for row in busca:
                 self.id.append(row.id)
                 self.nome.append(row.nome)
+
+            # Fechando Conexao
+            Conexao().dbhandler.close()
 
             pass
 

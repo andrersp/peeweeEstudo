@@ -22,9 +22,13 @@ class CrudCatProduto(object):
 
         try:
 
+            # Query
             ultimo = CategoriaProduto.select().order_by(
                 CategoriaProduto.id.desc()).get()
             self.id = ultimo.id + 1
+
+            # Fechando Conexao
+            Conexao().dbhandler.close()
 
         except:
 
@@ -73,11 +77,10 @@ class CrudCatProduto(object):
                 self.id.append(row.id)
                 self.categoria_produto.append(row.categoria_produto)
 
+            # Fechando Conexao
+            Conexao().dbhandler.close()
+
         except peewee.DoesNotExist as err:
             print(err)
 
-
-# Inseri = CrudCatProduto()
-# Inseri.id = Inseri.lastIdCatProduto()
-# Inseri.categoria_produto = "Caneca"
-# Inseri.inseriCatProduto()
+            pass
