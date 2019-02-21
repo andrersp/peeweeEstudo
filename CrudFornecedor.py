@@ -92,6 +92,11 @@ class CrudFornecedor(object):
 
     def SelectFornecedorId(self):
 
+        try:
+
+        except peewee.DoesNotExist as err:
+            print(err)
+
 
 Inseri = CrudFornecedor()
 Inseri.id = Inseri.lastIdFornecedor()
