@@ -1,2 +1,4 @@
-# peeweeEstudo
-Projeto da estudo sob o ORM peewee
+# Estudo ORM peewee
+
+__Documentação Oficial <http://docs.peewee-orm.com/en/latest/>__
+
