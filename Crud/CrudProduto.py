@@ -12,7 +12,7 @@ class CrudProduto(object):
     def __init__(self, id="", produto="", imagem="",
                  categoria="", marca="", estoqueMinimo="", estoqueMaximo="",
                  qtdeProduto="", valorCompra="", valorUnitario="",
-                 valorAtacado="", qtdeAtacado="", obsProduto=""):
+                 valorAtacado="", qtdeAtacado="", obsProduto="", query=""):
 
         self.id = id
         self.produto = produto
@@ -27,12 +27,7 @@ class CrudProduto(object):
         self.valorAtacado = valorAtacado
         self.qtdeAtacado = qtdeAtacado
         self.obsProduto = obsProduto
-
-        # Criando tabela Produto
-        try:
-            Produto.create_table()
-        except:
-            print(Conexao().erro)
+        self.query = query
 
     # Recendo ultimo ID inserido
 
@@ -126,40 +121,20 @@ class CrudProduto(object):
     def listaProduto(self):
 
         try:
+
             # Query
-            busca = (Produto.select(Produto.id, Produto.produto,
-                                    Produto.estoque_minimo, Produto.qtde,
-                                    Produto.valor_unitario,
-                                    Produto.valor_atacado,
-                                    Produto.qtde_atacado,
-                                    MarcaProduto.marca_produto
-                                    )
-                     .join(MarcaProduto)
-                     .where(
-                         Produto.produto.contains('{}'.format(self.produto))))
+            self.query = (Produto.select(Produto.id, Produto.produto,
+                                         Produto.estoque_minimo, Produto.qtde,
+                                         Produto.valor_unitario,
+                                         Produto.valor_atacado,
+                                         Produto.qtde_atacado,
+                                         MarcaProduto.marca_produto
+                                         )
+                          .join(MarcaProduto)
+                          .where(
+                Produto.produto.contains('{}'.format(self.produto))))
 
-            # Convertendo variaveis em lista
-            self.id = []
-            self.produto = []
-            self.estoqueMinimo = []
-            self.qtdeProduto = []
-            self.valorUnitario = []
-            self.valorAtacado = []
-            self.qtdeAtacado = []
-            self.marca = []
-
-            # Adicionando dados em suas listas
-            for row in busca:
-                self.id.append(row.id)
-                self.produto.append(row.produto)
-                self.estoqueMinimo.append(row.estoque_minimo)
-                self.qtdeProduto.append(row.qtde)
-                self.valorUnitario.append(row.valor_unitario)
-                self.valorAtacado.append(row.valor_atacado)
-                self.qtdeAtacado.append(row.qtde_atacado)
-                self.marca.append(row.marca.marca_produto)
-
-            # Fechando a Conexao
+           # Fechando a Conexao
             Conexao().dbhandler.close()
 
             pass
@@ -176,17 +151,8 @@ class CrudProduto(object):
         try:
 
             # Query
-            busca = (Produto.select(Produto.id, Produto.produto)
-                     .where(Produto.produto.contains(self.produto)))
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.produto = []
-
-            # Adicionando dados em suas listas
-            for row in busca:
-                self.id.append(row.id)
-                self.produto.append(row.produto)
+            self.query = (Produto.select(Produto.id, Produto.produto)
+                          .where(Produto.produto.contains(self.produto)))
 
             # Fechando Conexao
             Conexao().dbhandler.close()

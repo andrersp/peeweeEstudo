@@ -12,7 +12,7 @@ class CrudCliente(object):
                  celular="", telefone="", email="", obs="", cep="",
                  endereco="", numero="", bairro="", cidade="", estado="",
                  dataEmissao="", dataEntrega="", Total="",
-                 idPedido=""):
+                 idPedido="", query=""):
         self.id = id
         self.nome = nome
         self.sobrenome = sobrenome
@@ -28,17 +28,10 @@ class CrudCliente(object):
         self.bairro = bairro
         self.cidade = cidade
         self.estado = estado
-
-        # Criando tabela Clientes
-        try:
-            Cliente.create_table()
-            pass
-
-        except:
-            print(Conexao().erro)
-            pass
+        self.query = query
 
     # Recebendo última id inserido
+
     def lastIdCliente(self):
         try:
 
@@ -140,50 +133,11 @@ class CrudCliente(object):
         try:
 
             # Query
-            busca = Cliente.select().where(
+            self.query = Cliente.select().where(
                 Cliente.nome.contains('{}'
                                       .format(self.nome)))
 
             # fechando a conexao
-            Conexao().dbhandler.close()
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.nome = []
-            self.sobrenome = []
-            self.cpf = []
-            self.rg = []
-            self.celular = []
-            self.telefone = []
-            self.email = []
-            self.obs = []
-            self.cep = []
-            self.endereco = []
-            self.numero = []
-            self.bairro = []
-            self.cidade = []
-            self.estado = []
-            self.resultado = []
-
-            # Adicionando dados em suas listas
-            for row in busca:
-                self.id.append(row.id)
-                self.nome.append(row.nome)
-                self.sobrenome.append(row.sobrenome)
-                self.cpf.append(row.cpf)
-                self.rg.append(row.rg)
-                self.celular.append(row.celular)
-                self.telefone.append(row.telefone)
-                self.email.append(row.email)
-                self.obs.append(row.obs)
-                self.cep.append(row.cep)
-                self.endereco.append(row.endereco)
-                self.numero.append(row.numero)
-                self.bairro.append(row.bairro)
-                self.cidade.append(row.cidade)
-                self.estado.append(row.estado)
-
-            # Fechando Conexao
             Conexao().dbhandler.close()
 
             pass
@@ -201,17 +155,8 @@ class CrudCliente(object):
         try:
 
             # Query
-            busca = (Cliente.select(Cliente.id, Cliente.nome)
-                     .where(Cliente.nome.contains(self.nome)))
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.nome = []
-
-            # Adicionando dados em suas listas
-            for row in busca:
-                self.id.append(row.id)
-                self.nome.append(row.nome)
+            self.query = (Cliente.select(Cliente.id, Cliente.nome)
+                          .where(Cliente.nome.contains(self.nome)))
 
             # Fechando Conexao
             Conexao().dbhandler.close()

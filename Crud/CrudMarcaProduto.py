@@ -7,15 +7,10 @@ from Conexao import Conexao, MarcaProduto
 
 
 class CrudMarcaProduto(object):
-    def __init__(self, id="", marca_produto=""):
+    def __init__(self, id="", marca_produto="", query=""):
         self.id = id
         self.marca_produto = marca_produto
-
-        # Criando tabela Categoria Produtos
-        try:
-            MarcaProduto.create_table()
-        except:
-            print(Conexao().erro)
+        self.query = query
 
     # Recebendo ultimo Id inserido
 
@@ -63,20 +58,7 @@ class CrudMarcaProduto(object):
 
         try:
             # Query
-            busca = MarcaProduto.select()
-
-            # Fechando a Conexao
-            Conexao().dbhandler.close()
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.marca_produto = []
-
-            # Adicionando dados em suas listas
-
-            for row in busca:
-                self.id.append(row.id)
-                self.marca_produto.append(row.marca_produto)
+            self.query = MarcaProduto.select()
 
             # Fechando Conexao
             Conexao().dbhandler.close()

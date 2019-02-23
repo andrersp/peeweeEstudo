@@ -10,7 +10,7 @@ class CrudFornecedor(object):
     def __init__(self, id="", nomeFantasia="", razaoSocial="", cnpj="",
                  inscEstadual="", telefone="", email="", site="", obs="",
                  cep="", endereco="", numero="", bairro="", cidade="",
-                 estado=""):
+                 estado="", query=""):
 
         self.id = id
         self.nomeFantasia = nomeFantasia
@@ -27,12 +27,7 @@ class CrudFornecedor(object):
         self.bairro = bairro
         self.cidade = cidade
         self.estado = estado
-
-        # Criando Tabela:
-        try:
-            Fornecedor.create_table()
-        except:
-            print(Conexao().erro)
+        self.query = query
 
      # Recebendo última id inserido
 
@@ -133,43 +128,8 @@ class CrudFornecedor(object):
         try:
 
             # Query
-            busca = (Fornecedor.select().where(
+            self.query = (Fornecedor.select().where(
                 Fornecedor.nome_fantasia.contains(self.nomeFantasia)))
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.nomeFantasia = []
-            self.razaoSocial = []
-            self.cnpj = []
-            self.inscEstadual = []
-            self.telefone = []
-            self.email = []
-            self.site = []
-            self.obs = []
-            self.cep = []
-            self.endereco = []
-            self.numero = []
-            self.bairro = []
-            self.cidade = []
-            self.estado = []
-
-            # Adicionando dados em suas listas
-            for row in busca:
-                self.id.append(row.id)
-                self.nomeFantasia.append(row.nome_fantasia)
-                self.razaoSocial.append(row.razao_social)
-                self.cnpj.append(row.cnpj)
-                self.inscEstadual.append(row.insc_estadual)
-                self.telefone.append(row.telefone)
-                self.email.append(row.email)
-                self.site.append(row.site)
-                self.obs.append(row.obs)
-                self.cep.append(row.cep)
-                self.endereco.append(row.endereco)
-                self.numero.append(row.numero)
-                self.bairro.append(row.bairro)
-                self.cidade.append(row.cidade)
-                self.estado.append(row.estado)
 
             # Fechando a conexao
             Conexao().dbhandler.close()
@@ -184,19 +144,10 @@ class CrudFornecedor(object):
         try:
 
             # Query
-            busca = (Fornecedor
-                     .select(Fornecedor.id, Fornecedor.nome_fantasia)
-                     .where(Fornecedor.nome_fantasia
-                            .contains(self.nomeFantasia)))
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.nomeFantasia = []
-
-            # Adicionando dados em suas listas
-            for row in busca:
-                self.id.append(row.id)
-                self.nomeFantasia.append(row.nome_fantasia)
+            self.query = (Fornecedor
+                          .select(Fornecedor.id, Fornecedor.nome_fantasia)
+                          .where(Fornecedor.nome_fantasia
+                                 .contains(self.nomeFantasia)))
 
             # Fechando a Conexao
             Conexao().dbhandler.close()

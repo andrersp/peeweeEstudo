@@ -7,17 +7,13 @@ from Conexao import Conexao, CategoriaProduto
 
 
 class CrudCatProduto(object):
-    def __init__(self, id="", categoria_produto=""):
+    def __init__(self, id="", categoria_produto="", query=""):
         self.id = id
         self.categoria_produto = categoria_produto
+        self.query = query
 
-        # Criando tabela Categoria Produtos
-        try:
-            CategoriaProduto.create_table()
-        except:
-            print(Conexao().erro)
+    # Recebendo ultimo Id inserido
 
-        # Recebendo ultimo Id inserido
     def lastIdCatProduto(self):
 
         try:
@@ -62,22 +58,9 @@ class CrudCatProduto(object):
 
         try:
             # Query
-            busca = CategoriaProduto.select()
+            self.query = CategoriaProduto.select()
 
             # Fechando a Conexao
-            Conexao().dbhandler.close()
-
-            # Convertendo variaveis em lista
-            self.id = []
-            self.categoria_produto = []
-
-            # Adicionando dados em suas listas
-
-            for row in busca:
-                self.id.append(row.id)
-                self.categoria_produto.append(row.categoria_produto)
-
-            # Fechando Conexao
             Conexao().dbhandler.close()
 
         except peewee.DoesNotExist as err:
